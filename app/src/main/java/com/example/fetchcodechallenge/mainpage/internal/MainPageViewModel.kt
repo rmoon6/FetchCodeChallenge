@@ -9,6 +9,8 @@ internal abstract class MainPageViewModel : ViewModel() {
 
     abstract val state: StateFlow<MainPageState>
 
+    abstract fun onNetworkErrorRetry()
+
     object CreationFactory : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
             return MainPageViewModelImpl(extras.fetchApp.api) as T
