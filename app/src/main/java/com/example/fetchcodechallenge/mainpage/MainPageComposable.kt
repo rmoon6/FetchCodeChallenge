@@ -1,7 +1,7 @@
 package com.example.fetchcodechallenge.mainpage
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -76,24 +76,38 @@ private fun NetworkErrorScreen(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        Button(onClick = onRetryClicked) {
-            Text(text = "Network Error. Retry?")
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                text = "Network Error",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.error
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = onRetryClicked) {
+                Text(text = "Retry")
+            }
         }
     }
 }
-
 
 @Composable
 private fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>) {
     val groupedItems = items.groupBy { it.listId }
     LazyColumn(
         modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
     ) {
 
         groupedItems.forEach { (listId, itemsInGroup) ->
             item {
                 FetchItemListHeader(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
                     listId = listId
                 )
             }
@@ -102,7 +116,7 @@ private fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>)
                 FetchItemView(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
+                        .padding(horizontal = 8.dp, vertical = 2.dp),
                     item = item
                 )
             }
@@ -122,7 +136,8 @@ private fun FetchItemListHeader(
     Text(
         modifier = modifier,
         text = "List $listId",
-        style = MaterialTheme.typography.titleLarge
+        style = MaterialTheme.typography.titleLarge,
+        color = MaterialTheme.colorScheme.primary
     )
 }
 
@@ -130,15 +145,19 @@ private fun FetchItemListHeader(
 private fun FetchItemView(modifier: Modifier, item: FetchListItem) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "${item.name}",
+            text = "•",
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(end = 8.dp)
+        )
+        Text(
+            text = item.name ?: "",
             style = MaterialTheme.typography.bodyLarge
         )
     }
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////// PREVIEW STUFF
