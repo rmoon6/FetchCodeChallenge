@@ -1,0 +1,38 @@
+# Gradle files
+.gradle/
+build/
+*/build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Android Studio generated files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Avoid tracking any generated files or folders from Kotlin
+*.kotlin_module
+
+# Android log files
+*.log
+
+# Keystore files (don't include sensitive information in your repo)
+*.keystore
+
+# Avoid tracking .DS_Store on macOS and other system files
+.DS_Store
+Thumbs.db
+
+# Ignore Gradle Wrapper files that might not be relevant to other users
+gradle-wrapper.jar
+
+# Exclude build outputs
+app/build/
+
+# Ignore system-specific files (if applicable)
+gradlew
+gradlew.bat
+gradle/
+gradle.properties
