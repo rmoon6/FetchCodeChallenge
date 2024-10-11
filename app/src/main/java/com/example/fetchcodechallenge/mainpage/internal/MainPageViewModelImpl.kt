@@ -16,6 +16,10 @@ internal class MainPageViewModelImpl(
             val items = api
                 .getItems()
                 .filterNot { it.name.isNullOrBlank() }
+                .sortedWith(compareBy(
+                    { it.listId },
+                    { it.name }
+                ))
             state.value = MainPageState.WithItems(items)
         }
     }
