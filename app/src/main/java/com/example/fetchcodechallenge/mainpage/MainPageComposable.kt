@@ -33,17 +33,25 @@ import com.example.fetchcodechallenge.theme.FetchCodeChallengeTheme
 fun MainPage(modifier: Modifier) {
     val viewModel: MainPageViewModel = viewModel(factory = MainPageViewModel.CreationFactory)
     val state = viewModel.state.collectAsState().value
-    MainPage(modifier = modifier, state = state)
+    MainPage(
+        modifier = modifier,
+        state = state,
+        onNetworkErrorRetryClicked = { viewModel.onNetworkErrorRetry() }
+    )
 }
 
 @Composable
 private fun MainPage(
     modifier: Modifier,
-    state: MainPageState
+    state: MainPageState,
+    onNetworkErrorRetryClicked: () -> Unit
 ) {
     when (state) {
         Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        NetworkError -> NetworkErrorScreen(modifier = modifier.fillMaxSize())
+        NetworkError -> NetworkErrorScreen(
+            modifier = modifier.fillMaxSize(),
+            onRetryClicked = onNetworkErrorRetryClicked
+        )
         is WithItems -> FetchItemGroupedList(modifier = modifier.fillMaxSize(), items = state.items)
     }
 }
@@ -59,14 +67,15 @@ private fun LoadingScreen(modifier: Modifier) {
 }
 
 @Composable
-private fun NetworkErrorScreen(modifier: Modifier) {
+private fun NetworkErrorScreen(
+    modifier: Modifier,
+    onRetryClicked: () -> Unit
+) {
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        Button(onClick = {
-            // TODO STOPSHIP
-        }) {
+        Button(onClick = onRetryClicked) {
             Text(text = "Network Error. Retry?")
         }
     }
