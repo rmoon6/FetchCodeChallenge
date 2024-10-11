@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -142,7 +143,7 @@ private fun FetchItemListHeader(
         modifier = modifier,
         text = "List $listId",
         style = MaterialTheme.typography.titleLarge,
-        color = MaterialTheme.colorScheme.primary
+        fontWeight = FontWeight.Bold
     )
 }
 
