@@ -12,14 +12,50 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fetchcodechallenge.FetchListItem
+import com.example.fetchcodechallenge.mainpage.internal.MainPageState
+import com.example.fetchcodechallenge.mainpage.internal.MainPageState.Loading
+import com.example.fetchcodechallenge.mainpage.internal.MainPageState.NetworkError
+import com.example.fetchcodechallenge.mainpage.internal.MainPageState.WithItems
+import com.example.fetchcodechallenge.mainpage.internal.MainPageViewModel
 import com.example.fetchcodechallenge.theme.FetchCodeChallengeTheme
 
 @Composable
-fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>) {
+fun MainPage(modifier: Modifier) {
+    val viewModel: MainPageViewModel = viewModel(factory = MainPageViewModel.CreationFactory)
+    val state = viewModel.state.collectAsState().value
+    MainPage(modifier = modifier, state = state)
+}
+
+@Composable
+private fun MainPage(
+    modifier: Modifier,
+    state: MainPageState
+) {
+    when (state) {
+        Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
+        NetworkError -> NetworkErrorScreen(modifier = modifier.fillMaxSize())
+        is WithItems -> FetchItemGroupedList(modifier = modifier.fillMaxSize(), items = state.items)
+    }
+}
+
+@Composable
+private fun LoadingScreen(modifier: Modifier) {
+    // TODO STOPSHIP implement me!!
+}
+
+@Composable
+private fun NetworkErrorScreen(modifier: Modifier) {
+    // TODO STOPSHIP implement me!!
+}
+
+@Composable
+private fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>) {
     val groupedItems = items.groupBy { it.listId }
     LazyColumn(
         modifier = modifier
@@ -35,7 +71,9 @@ fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>) {
 
             items(itemsInGroup) { item ->
                 FetchItemView(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
                     item = item
                 )
             }
@@ -54,7 +92,7 @@ private fun FetchItemListHeader(
 ) {
     Text(
         modifier = modifier,
-        text = "List ID: $listId",
+        text = "List $listId",
         style = MaterialTheme.typography.titleLarge
     )
 }
@@ -66,11 +104,7 @@ private fun FetchItemView(modifier: Modifier, item: FetchListItem) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Item ID: ${item.id}",
-            style = MaterialTheme.typography.bodyLarge
-        )
-        Text(
-            text = item.name ?: "TODO STOPSHIP get rid of this!!",
+            text = "Item ${item.id}: ${item.name}",
             style = MaterialTheme.typography.bodyLarge
         )
     }
