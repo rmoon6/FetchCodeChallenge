@@ -3,6 +3,7 @@ package com.example.fetchcodechallenge
 import android.app.Application
 import com.example.fetchcodechallenge.api.FetchCodeChallengeApi
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -25,7 +26,9 @@ class FetchCodeChallengeApp : Application() {
     }
 
     private fun createMoshi(): Moshi {
-        return Moshi.Builder().build()
+        return Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
     }
 
     private fun createOkHttpClient(): OkHttpClient {
