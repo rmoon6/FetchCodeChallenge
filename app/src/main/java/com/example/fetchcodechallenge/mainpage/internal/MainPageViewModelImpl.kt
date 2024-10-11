@@ -1,7 +1,9 @@
 package com.example.fetchcodechallenge.mainpage.internal
 
+import androidx.lifecycle.viewModelScope
 import com.example.fetchcodechallenge.FetchCodeChallengeApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 internal class MainPageViewModelImpl(
     private val api: FetchCodeChallengeApi
@@ -10,6 +12,11 @@ internal class MainPageViewModelImpl(
     override val state = MutableStateFlow<MainPageState>(MainPageState.Loading)
 
     init {
-        // TODO STOPSHIP load the items!!
+        viewModelScope.launch {
+            val items = api
+                .getItems()
+                .filterNot { it.name.isNullOrBlank() }
+            state.value = MainPageState.WithItems(items)
+        }
     }
 }
