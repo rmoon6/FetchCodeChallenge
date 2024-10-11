@@ -1,6 +1,6 @@
 package com.example.fetchcodechallenge.mainpage.internal
 
-import com.example.fetchcodechallenge.FetchListItem
+import com.example.fetchcodechallenge.api.FetchListItem
 
 internal sealed interface MainPageState {
     object Loading : MainPageState

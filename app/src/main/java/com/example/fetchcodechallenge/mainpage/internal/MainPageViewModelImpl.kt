@@ -1,7 +1,7 @@
 package com.example.fetchcodechallenge.mainpage.internal
 
 import androidx.lifecycle.viewModelScope
-import com.example.fetchcodechallenge.FetchCodeChallengeApi
+import com.example.fetchcodechallenge.api.FetchCodeChallengeApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 

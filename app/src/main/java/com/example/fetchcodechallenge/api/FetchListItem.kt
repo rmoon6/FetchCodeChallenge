@@ -1,4 +1,4 @@
-package com.example.fetchcodechallenge
+package com.example.fetchcodechallenge.api
 
 import com.squareup.moshi.Json
 

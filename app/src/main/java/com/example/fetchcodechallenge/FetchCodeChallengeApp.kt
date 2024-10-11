@@ -1,6 +1,7 @@
 package com.example.fetchcodechallenge
 
 import android.app.Application
+import com.example.fetchcodechallenge.api.FetchCodeChallengeApi
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package com.example.fetchcodechallenge
+package com.example.fetchcodechallenge.api
 
 import retrofit2.Retrofit
 import retrofit2.http.GET
