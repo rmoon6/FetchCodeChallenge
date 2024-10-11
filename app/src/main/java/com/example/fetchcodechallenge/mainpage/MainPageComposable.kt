@@ -32,7 +32,7 @@ import com.example.fetchcodechallenge.mainpage.internal.MainPageState.Loading
 import com.example.fetchcodechallenge.mainpage.internal.MainPageState.NetworkError
 import com.example.fetchcodechallenge.mainpage.internal.MainPageState.WithItems
 import com.example.fetchcodechallenge.mainpage.internal.MainPageViewModel
-import com.example.fetchcodechallenge.theme.FetchCodeChallengeTheme
+import com.example.fetchcodechallenge.FetchCodeChallengeTheme
 
 @Composable
 fun MainPage(modifier: Modifier) {
