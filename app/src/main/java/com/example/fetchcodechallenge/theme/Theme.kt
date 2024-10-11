@@ -1,4 +1,4 @@
-package com.example.fetchcodechallenge.ui.theme
+package com.example.fetchcodechallenge.theme
 
 import android.app.Activity
 import android.os.Build
