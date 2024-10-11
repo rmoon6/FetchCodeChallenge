@@ -104,7 +104,8 @@ private fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>)
     ) {
 
         groupedItems.forEach { (listId, itemsInGroup) ->
-            item {
+
+            item(key = listId) {
                 FetchItemListHeader(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -113,7 +114,10 @@ private fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>)
                 )
             }
 
-            items(itemsInGroup) { item ->
+            items(
+                items = itemsInGroup,
+                key = { it.id }
+            ) { item ->
                 FetchItemView(
                     modifier = Modifier
                         .fillMaxWidth()
