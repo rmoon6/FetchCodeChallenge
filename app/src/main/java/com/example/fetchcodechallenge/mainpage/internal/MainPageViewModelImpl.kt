@@ -6,6 +6,8 @@ import com.example.fetchcodechallenge.mainpage.internal.MainPageState.Loading
 import com.example.fetchcodechallenge.mainpage.internal.MainPageState.WithItems
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
 internal class MainPageViewModelImpl(
     private val api: FetchCodeChallengeApi
@@ -22,15 +24,21 @@ internal class MainPageViewModelImpl(
         viewModelScope.launch { refreshListItems() }
     }
 
-    // TODO STOPSHIP handle exceptions somehow!!
     private suspend fun refreshListItems() {
-        val items = api
-            .getItems()
-            .filterNot { it.name.isNullOrBlank() }
-            .sortedWith(compareBy(
-                { it.listId },
-                { it.name }
-            ))
-        state.value = WithItems(items)
+        runCatching {
+            val items = api
+                .getItems()
+                .filterNot { it.name.isNullOrBlank() }
+                .sortedWith(compareBy(
+                    { it.listId },
+                    { it.name }
+                ))
+            state.value = WithItems(items)
+        }.onFailure {
+            when (it) {
+                is IOException, is HttpException -> state.value = MainPageState.NetworkError
+                else -> throw it
+            }
+        }
     }
 }
