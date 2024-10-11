@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.fetchcodechallenge.theme.FetchCodeChallengeTheme
 
 @Composable
-fun GroupedListView(modifier: Modifier, items: List<FetchListItem>) {
+fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>) {
     val groupedItems = items.groupBy { it.listId }
     LazyColumn(
         modifier = modifier
@@ -26,14 +26,14 @@ fun GroupedListView(modifier: Modifier, items: List<FetchListItem>) {
 
         groupedItems.forEach { (listId, itemsInGroup) ->
             item {
-                GroupHeader(
+                FetchItemListHeader(
                     modifier = Modifier.fillMaxWidth(),
                     listId = listId
                 )
             }
 
             items(itemsInGroup) { item ->
-                ListItemView(
+                FetchItemView(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
                     item = item
                 )
@@ -47,7 +47,7 @@ fun GroupedListView(modifier: Modifier, items: List<FetchListItem>) {
 }
 
 @Composable
-private fun GroupHeader(
+private fun FetchItemListHeader(
     modifier: Modifier,
     listId: Int
 ) {
@@ -59,7 +59,7 @@ private fun GroupHeader(
 }
 
 @Composable
-private fun ListItemView(modifier: Modifier, item: FetchListItem) {
+private fun FetchItemView(modifier: Modifier, item: FetchListItem) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -90,9 +90,9 @@ private val sampleItems = listOf(
 
 @Composable
 @Preview
-private fun GroupedListViewPreview() {
+private fun FetchItemGroupedListPreview() {
     FetchCodeChallengeTheme {
-        GroupedListView(
+        FetchItemGroupedList(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
