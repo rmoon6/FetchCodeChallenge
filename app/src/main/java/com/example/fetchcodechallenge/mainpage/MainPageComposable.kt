@@ -104,7 +104,7 @@ private fun FetchItemView(modifier: Modifier, item: FetchListItem) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Item ${item.id}: ${item.name}",
+            text = "${item.name}",
             style = MaterialTheme.typography.bodyLarge
         )
     }
