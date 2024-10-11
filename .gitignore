@@ -30,9 +30,3 @@ gradle-wrapper.jar
 
 # Exclude build outputs
 app/build/
-
-# Ignore system-specific files (if applicable)
-gradlew
-gradlew.bat
-gradle/
-gradle.properties
