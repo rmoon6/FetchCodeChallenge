@@ -1,5 +1,6 @@
 package com.example.fetchcodechallenge.mainpage
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,8 +39,7 @@ fun MainPage(modifier: Modifier) {
     val viewModel: MainPageViewModel = viewModel(factory = MainPageViewModel.CreationFactory)
     val state = viewModel.state.collectAsState().value
     MainPage(
-        modifier = modifier.padding(8.dp
-        ),
+        modifier = modifier,
         state = state,
         onNetworkErrorRetryClicked = { viewModel.onNetworkErrorRetry() }
     )
@@ -49,28 +51,36 @@ private fun MainPage(
     state: MainPageState,
     onNetworkErrorRetryClicked: () -> Unit
 ) {
-    when (state) {
-        Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        NetworkError -> NetworkErrorScreen(
-            modifier = modifier.fillMaxSize(),
-            onRetryClicked = onNetworkErrorRetryClicked
-        )
-        is WithItems -> FetchItemGroupedList(modifier = modifier.fillMaxSize(), items = state.items)
+    Box(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.background)
+            .padding(8.dp)
+            .fillMaxSize()
+    ) {
+        when (state) {
+            Loading -> LoadingScreen(modifier = modifier)
+            NetworkError -> NetworkErrorScreen(
+                modifier = modifier,
+                onRetryClicked = onNetworkErrorRetryClicked
+            )
+            is WithItems -> FetchItemGroupedList(modifier = modifier, items = state.items)
+        }
     }
 }
 
+
 @Composable
-private fun LoadingScreen(modifier: Modifier) {
+fun LoadingScreen(modifier: Modifier) {
     Box(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator()
+        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
     }
 }
 
 @Composable
-private fun NetworkErrorScreen(
+fun NetworkErrorScreen(
     modifier: Modifier,
     onRetryClicked: () -> Unit
 ) {
@@ -84,29 +94,37 @@ private fun NetworkErrorScreen(
         ) {
             Text(
                 text = "Network Error",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.error
+                style = MaterialTheme.typography.titleMedium.copy(
+                    color = MaterialTheme.colorScheme.error,
+                    fontWeight = FontWeight.Bold
+                )
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = onRetryClicked) {
-                Text(text = "Retry")
+            Button(
+                onClick = onRetryClicked,
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+            ) {
+                Text(
+                    text = "Retry",
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
             }
         }
     }
 }
 
+
 @Composable
 private fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>) {
     val groupedItems = remember(items) { items.groupBy { it.listId } }
+
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
-
         groupedItems.forEach { (listId, itemsInGroup) ->
-
-            item(key = listId) {
+            item(key = "header-$listId") {
                 FetchItemListHeader(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -116,8 +134,8 @@ private fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>)
             }
 
             items(
-                items = itemsInGroup,
-                key = { it.id }
+                itemsInGroup,
+                key = { item -> item.id }
             ) { item ->
                 FetchItemView(
                     modifier = Modifier
@@ -135,35 +153,39 @@ private fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>)
 }
 
 @Composable
-private fun FetchItemListHeader(
+fun FetchItemListHeader(
     modifier: Modifier,
     listId: Int
 ) {
     Text(
         modifier = modifier,
         text = "List $listId",
-        style = MaterialTheme.typography.titleLarge,
-        fontWeight = FontWeight.Bold
+        style = MaterialTheme.typography.titleLarge.copy(
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.Bold
+        )
     )
 }
 
+
 @Composable
-private fun FetchItemView(modifier: Modifier, item: FetchListItem) {
+fun FetchItemView(modifier: Modifier, item: FetchListItem) {
     Row(
-        modifier = modifier,
+        modifier = modifier.background(MaterialTheme.colorScheme.surface),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = "•",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(end = 8.dp)
+            style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface)
         )
+        Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = item.name ?: "",
-            style = MaterialTheme.typography.bodyLarge
+            text = item.name!!,
+            style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface)
         )
     }
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////// PREVIEW STUFF
