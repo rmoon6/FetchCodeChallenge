@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -95,7 +96,7 @@ private fun NetworkErrorScreen(
 
 @Composable
 private fun FetchItemGroupedList(modifier: Modifier, items: List<FetchListItem>) {
-    val groupedItems = items.groupBy { it.listId }
+    val groupedItems = remember(items) { items.groupBy { it.listId } }
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
