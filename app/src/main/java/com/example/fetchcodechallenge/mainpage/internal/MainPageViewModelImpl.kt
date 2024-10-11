@@ -18,6 +18,7 @@ internal class MainPageViewModelImpl(
     }
 
     override fun onNetworkErrorRetry() {
+        state.value = Loading
         viewModelScope.launch { refreshListItems() }
     }
 
