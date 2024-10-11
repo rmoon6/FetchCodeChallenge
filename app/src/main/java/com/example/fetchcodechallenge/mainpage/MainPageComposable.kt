@@ -34,7 +34,8 @@ fun MainPage(modifier: Modifier) {
     val viewModel: MainPageViewModel = viewModel(factory = MainPageViewModel.CreationFactory)
     val state = viewModel.state.collectAsState().value
     MainPage(
-        modifier = modifier,
+        modifier = modifier.padding(8.dp
+        ),
         state = state,
         onNetworkErrorRetryClicked = { viewModel.onNetworkErrorRetry() }
     )
